@@ -27,15 +27,17 @@ window.onload = function () {
 
         var results1 = imageThreshold({
             data: data,
-            threshold: 10
+            threshold: 50,
+            asDataURL: true //if you want data to data transformation you don't need to include this
         });
         applyResults('#target-1', results1);
 
         var results2 = imageThreshold({
             data: data,
-            threshold: 128
+            threshold: 128,
+            asDataURL: true //if you want data to data transformation you don't need to include this
         });
         applyResults('#target-2', results2);
     };
-    img.src = "http://lorempixel.com/400/200/sports/1/";
+    img.src = "dummy.jpg";
 }

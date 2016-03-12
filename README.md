@@ -1,3 +1,6 @@
+![build status](https://travis-ci.org/canastro/image-filter-threshold.svg?branch=master)
+[![npm version](https://badge.fury.io/js/image-filter-threshold.svg)](https://badge.fury.io/js/image-filter-threshold)
+
 # image-threshold
 
 Small library to apply a threshold transformation to a image.

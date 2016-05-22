@@ -22,8 +22,7 @@ var imageThreshold = require('image-threshold');
 
 var result = imageThreshold({
     data: IMAGE_DATA,
-    threshold: 30,
-    asDataURL: true //if you want data to data transformation you don't need to include this
+    threshold: 30
 });
 ```
 
@@ -49,13 +48,13 @@ element.setAttribute('src', options.url);
 ### How can I use the output of this?
 
 ```js
-var result = imageThreshold({
+imageThreshold({
     data: IMAGE_DATA
+}).then(function (result) {
+    var image = document.createElement('img');
+    image.setAttribute('src', result);
+
+    var target = document.getElementById('#dummy-target');
+    target.appendChild(image);
 });
-
-var image = document.createElement('img');
-image.setAttribute('src', result);
-
-var target = document.getElementById('#dummy-target');
-target.appendChild(image);
 ```

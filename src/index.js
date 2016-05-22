@@ -1,53 +1,41 @@
-var utils = require('./utils');
+import worker from './worker';
+import { apply, getCanvas } from 'image-filter-core';
 
 /**
- * @name transform
- * @param {object} canvas
- * @param {object} context
- * @param {object} imageData
- * @param {number} threshold
- * Iterate over the array applying the threshold transformation
- */
-function transform(imageData, threshold) {
-    var data = imageData.data;
-
-    for (var i = 0; i < data.length; i+= 4) {
-        var r = data[i];
-        var g = data[i+1];
-        var b = data[i+2];
-        var v = (0.2126 * r + 0.7152 * g + 0.0722 * b >= threshold) ? 255 : 0;
-        data[i] = data[i + 1] = data[i + 2] = v;
-    }
-
-    return imageData;
-}
-
-/**
- * @name imageThreshold
+ * @name contrastImage
  * @param {object} options
  * @param {string} options.data - data of a image extracted from a canvas
- * @param {string} options.threshold
+ * @param {string} options.contrast - contrast value to apply
+ * @param {string} options.nWorkers - number of workers
  * @param {bool} options.asDataURL
+ * @returns {promise}
  */
-module.exports = function imageThreshold(options) {
-    var result;
-    var canvas;
-    var context;
-
+export default function (options) {
     if (!options.data || !options.threshold) {
-        throw new Error('image-filter-threshold:: invalid options provided');
+        throw new Error('image-filter-brightness:: invalid options provided');
     }
 
-    canvas = utils.getCanvas(options.data.width, options.data.height);
-    context = canvas.getContext('2d');
+    const nWorkers = options.nWorkers || 4;
+    const params = {
+        threshold: options.threshold
+    };
+    const canvas = getCanvas(options.data.width, options.data.height);
+    const context = canvas.getContext('2d');
 
-    options.data = utils.getPixels(canvas, context, options.data);
+    // Drawing the source image into the target canvas
+    context.putImageData(options.data, 0, 0);
 
-    result = transform(options.data, options.threshold);
+    const len = canvas.width * canvas.height * 4;
+    const segmentLength = len / nWorkers; // This is the length of array sent to the worker
+    const blockSize = canvas.height / nWorkers; // Height of the picture chunck for every worker
 
-    if (options.asDataURL) {
-        return utils.convertToDataURL(canvas, context, result);
-    }
-
-    return result;
+    return apply(
+        worker,
+        nWorkers,
+        canvas,
+        context,
+        params,
+        blockSize,
+        segmentLength
+    );
 }

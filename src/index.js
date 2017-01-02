@@ -2,7 +2,7 @@ import worker from './worker';
 import { apply, getCanvas } from 'image-filter-core';
 
 /**
- * @name contrastImage
+ * @name threshold
  * @param {object} options
  * @param {string} options.data - data of a image extracted from a canvas
  * @param {string} options.contrast - contrast value to apply
@@ -10,7 +10,7 @@ import { apply, getCanvas } from 'image-filter-core';
  * @param {bool} options.asDataURL
  * @returns {promise}
  */
-export default function (options) {
+export default function threshold(options) {
     if (!options.data || !options.threshold) {
         throw new Error('image-filter-brightness:: invalid options provided');
     }

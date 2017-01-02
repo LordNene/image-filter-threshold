@@ -1,6 +1,6 @@
 {
   "name": "image-filter-threshold",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Small library to apply a threshold transformation to a image",
   "main": "src/index.js",
   "scripts": {
@@ -31,9 +31,8 @@
   ],
   "devDependencies": {
      "babel-polyfill": "^6.9.0",
-     "babel-preset-es2015": "^6.5.0",
-     "babelify": "^7.2.0",
-     "browserify": "^13.0.0",
+     "babelify": "^7.3.0",
+     "browserify": "^13.1.1",
      "browserify-babel-istanbul": "^0.4.0",
      "chai": "^3.5.0",
      "codecov.io": "^0.1.6",
@@ -51,7 +50,8 @@
      "watchify": "^3.7.0"
    },
    "dependencies": {
-     "image-filter-core": "latest"
+     "image-filter-core": "latest",
+     "babel-preset-es2015": "^6.5.0"
    },
    "browserify": {
      "transform": [

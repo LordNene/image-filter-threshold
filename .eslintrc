@@ -1,8 +1,7 @@
 {
     "extends": "eslint:recommended",
     "env": {
-        "es6": true,
-        "node": true
+        "browser": true
     },
     "rules": {
         "indent": ["error", 4],
@@ -17,6 +16,8 @@
     "globals": {
         "describe": true,
         "context": true,
-        "it": true
+        "it": true,
+        "beforeEach": true,
+        "afterEach": true
     }
 }

@@ -1,8 +1,8 @@
-import { expect } from 'chai';
-import { transform } from '../src/threshold';
+const expect = require('chai').expect;
+const transform = require('../src/threshold');
 
-describe('threshold', () => {
-    it('should apply transformation and return as imageData', () => {
+describe('threshold', function() {
+    it('should apply transformation and return as imageData', function() {
         const data = [
             193,
             219,

@@ -1,24 +1,20 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
-import worker from '../src/worker';
-import * as threshold from '../src/threshold';
+const sinon = require('sinon');
+const expect = require('chai').expect;
+const worker = require('../src/worker');
 
-describe('worker', () => {
-    let self;
+describe('worker', function() {
+    var self;
 
-    beforeEach(() => {
+    beforeEach(function() {
         self = {
             postMessage: sinon.stub(),
             close: sinon.stub()
         };
-
-        sinon.stub(threshold, 'transform');
     });
 
-    context('message', () => {
-        it('should make a postMessage and close itself', (done) => {
-
-            self.addEventListener = (type, fn) => {
+    context('message', function() {
+        it('should make a postMessage and close itself', function(done) {
+            self.addEventListener = function (type, fn) {
                 const e = {
                     data: {
                         params: {
@@ -63,8 +59,6 @@ describe('worker', () => {
             };
 
             worker(self);
-
-
         });
     });
 });

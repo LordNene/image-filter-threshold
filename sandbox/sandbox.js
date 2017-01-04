@@ -1,16 +1,25 @@
-import imageThreshold from '../src/index';
+const imageThreshold = require('../src/index');
 
-function applyResults(selector, src) {
+/**
+ * @name convertToDataURL
+ * @param {object} canvas
+ * @param {object} context
+ */
+function convertToDataURL(canvas, context, imageData) {
+    context.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+}
+
+function applyResults(selector, canvas, context, src) {
     const target = document.querySelectorAll(selector)[0];
     const image = document.createElement('img');
-    image.setAttribute('src', src);
+    image.setAttribute('src', convertToDataURL(canvas, context, src));
     target.appendChild(image);
 }
 
 window.onload = function () {
-
     const img = new Image;
-    img.onload = () => {
+    img.onload = function () {
         const canvas = document.createElement('canvas');
         canvas.width = img.width;
         canvas.height = img.height;
@@ -22,15 +31,15 @@ window.onload = function () {
         imageThreshold({
             data: data,
             threshold: 50
-        }).then((results) => {
-            applyResults('#target-1', results);
+        }).then(function (results) {
+            applyResults('#target-1', canvas, context, results);
         });
 
         imageThreshold({
             data: data,
             threshold: 128
-        }).then((results) => {
-            applyResults('#target-1', results);
+        }).then(function (results) {
+            applyResults('#target-2', canvas, context, results);
         });
     };
 

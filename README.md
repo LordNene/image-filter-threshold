@@ -1,20 +1,21 @@
 ![build status](https://travis-ci.org/canastro/image-filter-threshold.svg?branch=master)
 [![npm version](https://badge.fury.io/js/image-filter-threshold.svg)](https://badge.fury.io/js/image-filter-threshold)
+[![codecov](https://codecov.io/gh/canastro/image-filter-threshold/branch/master/graph/badge.svg)](https://codecov.io/gh/canastro/image-filter-threshold)
 
-# image-threshold
+# image-filter-threshold
 
 Small library to apply a threshold transformation to a image.
 
 ## Install
 
 ```
-npm install image-threshold --save
+npm install image-filter-threshold --save
 ```
 
 ## Usage
 It applies a threshold transformation to a base64 image. If you want a more complete library, please check image-filters that wraps this and other libraries to provide a more complete suite of image filters.
 
-The default operation of this library is to consume imageData and return transformed imageData, but to facilitate a bit you can pass `asDataURL` as true to return a dataURL that you can inject into a image tag.
+This library consumes ImageData and outputs ImageData in a Promise. You can use `image-filter-core` to convert from ImageData to dataURL.
 
 JS file:
 ```js
@@ -26,7 +27,7 @@ var result = imageThreshold({
 });
 ```
 
-# Frequent questions:
+## Frequent questions:
 ### How can I get image data from a image tag?
 
 ```js
@@ -48,13 +49,13 @@ element.setAttribute('src', options.url);
 ### How can I use the output of this?
 
 ```js
+var imageFilterCore = require('image-filter-core');
 imageThreshold({
     data: IMAGE_DATA
 }).then(function (result) {
+    // result === ImageData object
     var image = document.createElement('img');
-    image.setAttribute('src', result);
-
-    var target = document.getElementById('#dummy-target');
+    image.setAttribute('src', imageFilterCore.convertImageDataToCanvasURL(imageData));
     target.appendChild(image);
 });
 ```

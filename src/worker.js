@@ -1,20 +1,20 @@
-import { transform } from './threshold';
+var transform = require('./threshold');
 
 module.exports = function (self) {
-    self.addEventListener('message', (e) => {
-        const threshold = e.data.params.threshold;
+    self.addEventListener('message', function (e) {
+        var threshold = e.data.params.threshold;
 
-        const canvasData = e.data.data;
-        const binaryData = canvasData.data;
+        var canvasData = e.data.data;
+        var binaryData = canvasData.data;
 
-        const length = e.data.length;
-        const index = e.data.index;
+        var length = e.data.length;
+        var index = e.data.index;
 
         transform(binaryData, length, threshold);
 
         self.postMessage({
             result: canvasData,
-            index
+            index: index
         });
 
         self.close();

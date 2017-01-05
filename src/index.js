@@ -1,41 +1,33 @@
-import worker from './worker';
-import { apply, getCanvas } from 'image-filter-core';
+var imageFilterCore = require('image-filter-core');
+var worker = require('./worker');
 
 /**
  * @name threshold
- * @param {object} options
- * @param {string} options.data - data of a image extracted from a canvas
- * @param {string} options.contrast - contrast value to apply
- * @param {string} options.nWorkers - number of workers
- * @param {bool} options.asDataURL
- * @returns {promise}
+ * @param {Object} options
+ * @param {ImageData} [options.data] - data of a image extracted from a canvas
+ * @param {String} [options.contrast] - contrast value to apply
+ * @param {String} [options.nWorkers] - number of workers
+ * @returns {Promise}
  */
-export default function threshold(options) {
+module.exports =  function threshold(options) {
     if (!options.data || !options.threshold) {
-        throw new Error('image-filter-brightness:: invalid options provided');
+        throw new Error('image-filter-threshold:: invalid options provided');
     }
 
-    const nWorkers = options.nWorkers || 4;
-    const params = {
+    var params = {
         threshold: options.threshold
     };
-    const canvas = getCanvas(options.data.width, options.data.height);
-    const context = canvas.getContext('2d');
+    var canvas = imageFilterCore.getCanvas(options.data.width, options.data.height);
+    var context = canvas.getContext('2d');
 
     // Drawing the source image into the target canvas
     context.putImageData(options.data, 0, 0);
 
-    const len = canvas.width * canvas.height * 4;
-    const segmentLength = len / nWorkers; // This is the length of array sent to the worker
-    const blockSize = canvas.height / nWorkers; // Height of the picture chunck for every worker
-
-    return apply(
+    return imageFilterCore.apply(
         worker,
-        nWorkers,
+        options.nWorkers,
         canvas,
         context,
-        params,
-        blockSize,
-        segmentLength
+        params
     );
-}
+};

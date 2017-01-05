@@ -1,6 +1,7 @@
 const sinon = require('sinon');
 const expect = require('chai').expect;
 const utils = require('image-filter-core');
+const imageFilterCore = require('image-filter-core');
 const imageFilterThreshold = require('../src/index');
 
 describe('index', function() {
@@ -41,10 +42,12 @@ describe('index', function() {
         expect(fn).to.throw(/image-filter-threshold:: invalid options provided/);
     });
 
-    it.skip('should apply transformation and return as imageData', function() {
+    it('should apply transformation and return as imageData', function(done) {
         var imageData = {
             data: [193, 219, 242, 255]
         };
+
+        sandbox.stub(imageFilterCore, 'apply', function () { return Promise.resolve(); });
 
         // const expectedData = {
         //     data: [224.34440379022422, 262.88216530631394, 296.9732620320856, 255]
@@ -52,9 +55,11 @@ describe('index', function() {
 
         imageFilterThreshold({
             data: imageData,
-            brightness: 50
+            threshold: 10
         }).then(function (result) {
-            console.log(result);
+            // TODO: VALIDATE calledWith
+            expect(imageFilterCore.apply.calledOnce).to.equal(true);
+            done();
         });
     });
 });

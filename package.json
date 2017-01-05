@@ -1,6 +1,6 @@
 {
   "name": "image-filter-threshold",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Small library to apply a threshold transformation to a image",
   "main": "src/index.js",
   "scripts": {
@@ -48,6 +48,6 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "image-filter-core": "git+https://github.com/canastro/image-filter-core#prebundle"
+    "image-filter-core": "^1.0.0"
   }
 }

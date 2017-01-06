@@ -4,7 +4,7 @@
 
 # image-filter-threshold
 
-Small library to apply a threshold transformation to a image.
+Small library to apply a threshold transformation to a image using webworkify to split work between multiple webworkers.
 
 ## Install
 
@@ -16,6 +16,8 @@ npm install image-filter-threshold --save
 It applies a threshold transformation to a base64 image. If you want a more complete library, please check image-filters that wraps this and other libraries to provide a more complete suite of image filters.
 
 This library consumes ImageData and outputs ImageData in a Promise. You can use `image-filter-core` to convert from ImageData to dataURL.
+
+PS: This library depends on `webworkify` so its only compatible with browserify.
 
 JS file:
 ```js

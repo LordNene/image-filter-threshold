@@ -33,10 +33,7 @@ JS file:
 ```js
 var imageThreshold = require('image-threshold');
 
-imageThreshold({
-    data: IMAGE_DATA,
-    threshold: 30
-});
+imageThreshold(IMAGE_DATA, { threshold: 30 });
 ```
 
 ## Frequent questions:
@@ -62,12 +59,11 @@ element.setAttribute('src', options.url);
 
 ```js
 var imageFilterCore = require('image-filter-core');
-imageThreshold({
-    data: IMAGE_DATA
-}).then(function (result) {
-    // result === ImageData object
-    var image = document.createElement('img');
-    image.setAttribute('src', imageFilterCore.convertImageDataToCanvasURL(imageData));
-    target.appendChild(image);
-});
+imageThreshold(IMAGE_DATA, { threshold: 30 })
+    .then(function (result) {
+        // result === ImageData object
+        var image = document.createElement('img');
+        image.setAttribute('src', imageFilterCore.convertImageDataToCanvasURL(imageData));
+        target.appendChild(image);
+    });
 ```

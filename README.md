@@ -32,8 +32,9 @@ This library consumes ImageData and outputs ImageData in a Promise. You can use 
 JS file:
 ```js
 var imageThreshold = require('image-threshold');
+var nWorkers = 4;
 
-imageThreshold(IMAGE_DATA, { threshold: 30 });
+imageThreshold(IMAGE_DATA, { threshold: 30 }, nWorkers);
 ```
 
 ## Frequent questions:
@@ -59,7 +60,9 @@ element.setAttribute('src', options.url);
 
 ```js
 var imageFilterCore = require('image-filter-core');
-imageThreshold(IMAGE_DATA, { threshold: 30 })
+var nWorkers = 4;
+
+imageThreshold(IMAGE_DATA, { threshold: 30 }, nWorkers)
     .then(function (result) {
         // result === ImageData object
         var image = document.createElement('img');

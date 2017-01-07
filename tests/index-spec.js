@@ -1,13 +1,12 @@
 const sinon = require('sinon');
 const expect = require('chai').expect;
-const utils = require('image-filter-core');
 const imageFilterCore = require('image-filter-core');
 const imageFilterThreshold = require('../src/index');
 
 describe('index', function() {
     var sandbox;
     var canvas;
-    var context;
+    var ctx;
 
     beforeEach(function() {
         // Create a sandbox for the test
@@ -20,7 +19,7 @@ describe('index', function() {
     });
 
     beforeEach(function() {
-        context = {
+        ctx = {
             getImageData: sandbox.stub(),
             putImageData: sandbox.stub()
         };
@@ -28,38 +27,56 @@ describe('index', function() {
         canvas = {
             width: 100,
             height: 150,
-            getContext: sandbox.stub().returns(context)
+            getContext: sandbox.stub().returns(ctx)
         };
 
-        sandbox.stub(utils, 'getCanvas').returns(canvas);
+        sandbox.stub(imageFilterCore, 'getCanvas').returns(canvas);
     });
 
-    it('should throw error by missing parameters', function() {
-        function fn() {
-            imageFilterThreshold({});
-        };
+    context('when no data is provided', function () {
+        it('should throw error by missing parameters', function () {
+            function fn() {
+                imageFilterThreshold();
+            };
 
-        expect(fn).to.throw(/image-filter-threshold:: invalid options provided/);
+            expect(fn).to.throw(/image-filter-threshold:: invalid options provided/);
+        });
     });
 
-    it('should apply transformation and return as imageData', function(done) {
-        var imageData = {
-            data: [193, 219, 242, 255]
-        };
 
-        sandbox.stub(imageFilterCore, 'apply', function () { return Promise.resolve(); });
+    context('when no options are provided', function () {
+        it('should throw error by missing parameters', function () {
+            function fn() {
+                imageFilterThreshold({});
+            };
 
-        // const expectedData = {
-        //     data: [224.34440379022422, 262.88216530631394, 296.9732620320856, 255]
-        // };
+            expect(fn).to.throw(/image-filter-threshold:: invalid options provided/);
+        });
+    });
 
-        imageFilterThreshold({
-            data: imageData,
-            threshold: 10
-        }).then(function (result) {
-            // TODO: VALIDATE calledWith
-            expect(imageFilterCore.apply.calledOnce).to.equal(true);
-            done();
+    context('when no threshold is provided', function () {
+        it('should throw error by missing parameters', function () {
+            function fn() {
+                imageFilterThreshold({}, {});
+            };
+
+            expect(fn).to.throw(/image-filter-threshold:: invalid options provided/);
+        });
+    });
+
+    context('when all required parameters are provided', function () {
+        it('should apply transformation and return as imageData', function (done) {
+            var imageData = {
+                data: [193, 219, 242, 255]
+            };
+
+            sandbox.stub(imageFilterCore, 'apply', function () { return Promise.resolve(); });
+
+            imageFilterThreshold(imageData, { threshold: 10 }, 4)
+                .then(function (result) {
+                    expect(imageFilterCore.apply.calledOnce).to.equal(true);
+                    done();
+                });
         });
     });
 });

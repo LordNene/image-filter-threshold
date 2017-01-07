@@ -4,7 +4,19 @@
 
 # image-filter-threshold
 
-Small library to apply a threshold transformation to a image using webworkify to split work between multiple webworkers.
+Small library to apply a threshold transformation to a image relying on `image-filter-core` handle the transformation and distribute work with webworkers.
+
+Other related modules:
+* [image-filter-core](https://www.npmjs.com/package/image-filter-core)
+* [image-filter-brightness](https://www.npmjs.com/package/image-filter-brightness)
+* [image-filter-contrast](https://www.npmjs.com/package/image-filter-contrast)
+* [image-filter-grayscale](https://www.npmjs.com/package/image-filter-grayscale)
+* [image-filter-threshold](https://www.npmjs.com/package/image-filter-threshold)
+* [image-filter-sepia](https://www.npmjs.com/package/image-filter-sepia)
+* [image-filter-invert](https://www.npmjs.com/package/image-filter-invert)
+* [image-filter-gamma](https://www.npmjs.com/package/image-filter-gamma)
+* [image-filter-colorize](https://www.npmjs.com/package/image-filter-colorize)
+* [image-filters](https://www.npmjs.com/package/image-filters)
 
 ## Install
 
@@ -17,13 +29,11 @@ It applies a threshold transformation to a base64 image. If you want a more comp
 
 This library consumes ImageData and outputs ImageData in a Promise. You can use `image-filter-core` to convert from ImageData to dataURL.
 
-PS: This library depends on `webworkify` so its only compatible with browserify.
-
 JS file:
 ```js
 var imageThreshold = require('image-threshold');
 
-var result = imageThreshold({
+imageThreshold({
     data: IMAGE_DATA,
     threshold: 30
 });

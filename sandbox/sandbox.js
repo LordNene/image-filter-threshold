@@ -19,12 +19,12 @@ window.onload = function () {
 
         var data = context.getImageData(0, 0, img.width, img.height);
 
-        imageThreshold(data, { threshold: 50 })
+        imageThreshold(data, { threshold: 50 }, 4)
             .then(function (results) {
                 applyResults('#target-1', canvas, context, results);
             });
 
-        imageThreshold(data, { threshold: 128 })
+        imageThreshold(data, { threshold: 128 }, 4)
             .then(function (results) {
                 applyResults('#target-2', canvas, context, results);
             });
